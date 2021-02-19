@@ -1,0 +1,29 @@
+# 应用名称
+spring:
+  application:
+    name: yuxs-config-server
+  profiles:
+    active: dev
+  security:
+    user:
+      name: admin
+      password: admin
+
+server:
+  port: 8888
+
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo
+          add-label-locations: true
+          default-label: @profile.env@
+        git:
+          #1.配置git仓库地址
+          uri: http://xxx/esportingplus-config.git
+          #配置仓库路径
+          searchPaths: config-repo

@@ -1,0 +1,45 @@
+server:
+  port: 8761
+  # {@link https://github.com/undertow-io/undertow/blob/master/core/src/main/java/io/undertow/Undertow.java}
+  undertow:
+    # Size of each buffer in bytes.
+    buffer-size: 1024
+    # Allocate buffers outside the Java heap. The default is derived from the maximum amount of memory that is available to the JVM.
+    direct-buffers: true
+
+# 应用名称
+spring:
+  application:
+    name: yuxs-eureka-server
+  profiles:
+    active: @profile.env@
+  security:
+    user:
+      name: admin
+      password: admin
+
+logging:
+  level:
+    org: info
+    com.netflix: error
+    springfox: error
+    com.esportingplus: debug
+  register-shutdown-hook: false
+
+---
+spring:
+  profiles: dev
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:${server.port}/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    #hostname: localhost
+    prefer-ip-address: true
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 60000
+
