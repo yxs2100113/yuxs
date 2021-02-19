@@ -1,0 +1,29 @@
+server:
+  port: 10101
+
+
+# 应用名称
+spring:
+  application:
+    name: yuxs-user-service
+  profiles:
+    active: @profile.env@
+  security:
+    user:
+      name: admin
+      password: admin
+
+---
+spring:
+  profiles: dev
+
+eureka:
+  instance:
+    #hostname: 127.0.0.1
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8761/eureka/
